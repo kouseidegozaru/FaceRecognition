@@ -5,6 +5,9 @@ def extract_face_feature(face_image):
     """
     入力された顔領域画像から特徴量を抽出して返す
     """
+    # 画像の有無
+    if face_image is None:
+        raise("Error: Image is None")
     # 顔領域画像をリサイズ
     resized = cv2.resize(face_image, (64, 64))
     

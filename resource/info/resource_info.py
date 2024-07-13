@@ -2,9 +2,18 @@ import os
 import pathlib
 
 resource_info_path = os.path.abspath(__file__)
-PROJECT_PATH = pathlib.Path(__file__).parent.parent.resolve()
+RESOURCE_PATH = pathlib.Path(__file__).parent.parent.resolve()
 
-PERSON_NAMES = ['kento','ryou','syou']
-TRAIN_IMAGE_IDS = [0,1,2]
+PERSON_NAMES = {
+    0:'kento',
+    1:'ryou',
+    2:'syou'
+}
+
+CURRENT_MODEL_PATH = os.path.join(RESOURCE_PATH,'trained_models','nearest_neighbors.joblib')
+
 TRAIN_IMAGE_NAMES = ['yamazaki_kento.jpg','yoshizawa_ryou.jpg','hirano_syou.jpg']
-TRAIN_IMAGE_DIR_PATH = os.path.join(PROJECT_PATH,'images','train')
+TRAIN_IMAGE_DIR_PATH = os.path.join(RESOURCE_PATH,'images','train')
+
+TEST_IMAGE_NAMES = ['yamazaki_kento.jpg','yoshizawa_ryou.jpg','hirano_syou.jpg']
+TEST_IMAGE_DIR_PATH = os.path.join(RESOURCE_PATH,'images','test')

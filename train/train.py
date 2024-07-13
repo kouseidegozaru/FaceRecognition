@@ -6,23 +6,24 @@ from pathlib import Path
 from sklearn.neighbors import NearestNeighbors
 import joblib
 
-from tools.image_detection import detect_face
-from tools.extract_feature import extract_face_feature
-
 # 設定ファイルインポート
 sys.path.append(str(Path(__file__).resolve().parent.parent))
 from resource.info import resource_info
 
+from module.image_detection import detect_face
+from module.extract_feature import extract_face_feature
+
 def main():
-    model_path = 'trained_models/nearest_neighbors.joblib'
+    model_path = resource_info.CURRENT_MODEL_PATH
     image_dir_path = resource_info.TRAIN_IMAGE_DIR_PATH
     image_names = resource_info.TRAIN_IMAGE_NAMES
-    image_ids = resource_info.TRAIN_IMAGE_IDS
+    person_info = resource_info.PERSON_NAMES
 
     # 顔写真データの登録
     face_data = []
     labels = []
-    for person_id,image_name in zip(image_ids,image_names):
+    for (person_id, person_name), image_name in zip(person_info.items(), image_names):
+
         # 各人物の顔写真を1枚ずつ読み込む
         img = cv2.imread(os.path.join(image_dir_path, image_name))
         
