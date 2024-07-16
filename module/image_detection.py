@@ -1,4 +1,5 @@
-import cv2
+import face_recognition
+import numpy as np
 
 def detect_face(image):
     """
@@ -6,25 +7,15 @@ def detect_face(image):
     """
     # 画像の有無
     if image is None:
-        raise("Error: Image is None")
-    
-    # OpenCV の顔検出器を取得
-    face_detector = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
-    
-    # 入力画像をグレースケールに変換
-    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        raise ValueError("Error: Image is None")
     
     # 顔領域を検出
-    faces = face_detector.detectMultiScale(
-        gray,
-        scaleFactor=1.1,
-        minNeighbors=5,
-        minSize=(30, 30)
-    )
+    face_locations = face_recognition.face_locations(image)
     
     # 検出された顔領域の中から、最大の領域を取得
-    if len(faces) > 0:
-        x, y, w, h = max(faces, key=lambda r: r[2]*r[3])
-        return image[y:y+h, x:x+w]
+    if len(face_locations) > 0:
+        top, right, bottom, left = max(face_locations, key=lambda r: (r[2]-r[0])*(r[1]-r[3]))
+        face_image = image[top:bottom, left:right]
+        return np.array(face_image)  # numpy配列として返す
     else:
         return None
